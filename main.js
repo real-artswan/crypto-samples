@@ -71,3 +71,4 @@ const
 
 console.log("Xored PTs\t" + xoredPTs.toString("hex"));
 console.log("Xored as text\t" + xoredPTs.toString("ascii"));
+console.log("hint: space (32) xor char = invert case");
