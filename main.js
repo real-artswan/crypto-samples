@@ -3,9 +3,7 @@ const
 	crypto = require("crypto"); //for random
 
 	xorBytes = (a, b) => {
-		if (a.length !== b.length)
-			throw new Error("Lenghts must be the same!");
-		const outLen = a.length;
+		const outLen = Math.min(a.length, b.length);
 
 		const out = new Buffer(outLen);
 		for (let i = 0; i < outLen; i++) {
@@ -63,3 +61,13 @@ const
 
 console.log("Tampered CT\t" + tamperedCT.toString("hex"));
 console.log("Tampered PT\t" + tamperedPT.toString("ascii"));
+
+//hack two-time pad
+const
+	PT2 = new Buffer("Do not reuse key/IV pair", "ascii");
+	hackableEncryptor = new Salsa20(KEY, IV);
+	hackableCT = hackableEncryptor.encrypt(PT2);
+	xoredPTs = xorBytes(CT, hackableCT);
+
+console.log("Xored PTs\t" + xoredPTs.toString("hex"));
+console.log("Xored as text\t" + xoredPTs.toString("ascii"));
